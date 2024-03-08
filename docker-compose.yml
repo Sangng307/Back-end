@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Dịch vụ cho ứng dụng Spring Boot
+  spring-app:
+    image: springboot10:v1.0
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://sql-server:1433;encrypt=true;trustServerCertificate=true;databaseName=master
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: Admin@123456789
+      SPRING_DATASOURCE_DRIVERCLASSNAME: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.SQLServerDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+     
+  # Dịch vụ cho SQL Server
+  sql-server:
+    image: mcr.microsoft.com/mssql/server
+    container_name: sql-server
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: Admin@123456789
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_TCP_PORT: 1433
+    volumes:
+      - sql-data:/var/opt/mssql
+      - D:/Blockchain/workspace/NestJs/init09.sql:/docker-entrypoint-initdb.d/init.sql
+     
+  nestjs-app:
+    image: nestjs12:v1.0
+    container_name: nestjs-app
+    ports:
+      - "4500:4500" 
+    depends_on:
+      - sql-server
+      
+  reactjs-app:
+    image: reactjs11:v1.0
+    container_name: reactjs-app
+    ports:
+      - "3000:3000" 
+    depends_on:
+      - sql-server
+
+volumes:
+  sql-data:
