@@ -31,7 +31,7 @@ public interface OrderDao extends JpaRepository<Order, Long> {
 		@Param("startDay") Date startDay,
 		@Param("endDay") Date endDay);
 
-	@Query("SELECT new com.poly.demo.reqRespModels.DailyOrderData(o.date, SUM(o.quantity)) " +
+	@Query("SELECT new com.poly.demo.reqRespModels.DailyOrderData(o.date, COUNT (o.quantity)) " +
 			"FROM Order o " +
 			"WHERE o.date BETWEEN :startDay AND :endDay " +
 			"GROUP BY o.date")

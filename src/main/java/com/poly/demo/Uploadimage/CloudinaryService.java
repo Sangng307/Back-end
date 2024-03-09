@@ -28,7 +28,7 @@ public class CloudinaryService {
 
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), params);
         System.out.println(uploadResult);
-        return (String) uploadResult.get("public_id");
+        return (String) uploadResult.get("secure_url");
     }
 }
 

@@ -5,7 +5,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.poly.demo.Entity.Order;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,11 +47,33 @@ public class AdminUsersController {
     QRCodeGenerator codeGenerator;
     @Autowired
     EmailSenderService emailSenderService;
+
+    @PutMapping("/userStatus/{userId}") // Change orderId to userId
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long userId) {
+        try {
+            Users user = userdao.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            // Toggle the user status
+            boolean currentStatus = user.isStatus(); // Get the current status
+            user.setStatus(!currentStatus); // Toggle the status
+
+            // Save the updated user
+            userdao.save(user);
+
+            return ResponseEntity.ok("User status updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update user status");
+        }
+    }
+
     @GetMapping(value = {"/user","/users"})
     public ResponseEntity<List<Users>> getListUser(){
         List<Users> users = userdao.findAll();
         return ResponseEntity.ok(users);
     }
+
+
 
     @GetMapping(value = {"/user/{id}","/users/{id}"})
     public ResponseEntity<Users> getuser(@PathVariable("id") Long id){

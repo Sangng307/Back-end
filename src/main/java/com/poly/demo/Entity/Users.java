@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Users implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,4 +74,5 @@ public class Users implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 }

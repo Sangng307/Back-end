@@ -19,7 +19,7 @@ public interface UsersDao extends JpaRepository<Users, Long> {
 //	Users findById(long id);
 //	List<Users> findByDateBetween(Date start, Date end);
 
-	@Query("SELECT new com.poly.demo.reqRespModels.NewCustomData(o.date,  COUNT (o.username) as value ) " +
+	@Query("SELECT new com.poly.demo.reqRespModels.NewCustomData(o.date,  COUNT (o.email) as value ) " +
 			"FROM Users o " +
 			"WHERE o.date BETWEEN :startDay AND :endDay " +
 			" GROUP BY o.date")

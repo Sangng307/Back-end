@@ -8,20 +8,20 @@ import com.poly.demo.Entity.Food;
 import com.poly.demo.Entity.OrderDetail;
 import com.poly.demo.Entity.Users;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class Order {
+public class OrderController {
     private final UsersDao usersDao;
     private final OrderDao orderdao;
     private final OrderDetailDao orderDetailDao;
@@ -34,7 +34,8 @@ public class Order {
             String address = orderRequest.getAddress();
             Double price = orderRequest.getPrice();
             String status = orderRequest.getStatus();
-            Date date = new SimpleDateFormat("dd/MM/yyyy HH mm ss").parse(orderRequest.getDate());
+            Date currentDate = new Date();
+            Date date = currentDate;
             int quantity = orderRequest.getQuantity();
             System.out.println(quantity);
             String payment = orderRequest.getPayment();

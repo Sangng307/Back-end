@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/media")
+@RequestMapping("/admin/media")
 public class MediaUploadController {
 
     private final CloudinaryService cloudinaryService;
